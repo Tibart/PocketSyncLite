@@ -98,7 +98,7 @@ export function normalizeRecordingDetail(
 		state: getNullableString(value, "state") ?? fallback.state,
 		durationSeconds: getNullableNumber(value, "duration") ?? fallback.durationSeconds,
 		language: getNullableString(value, "language") ?? fallback.language,
-		recordingAt,
+		recordingAt: new Date(recordingAt),
 		createdAt,
 		updatedAt,
 		tags: tags.length > 0 ? tags : fallback.tags,
@@ -152,7 +152,7 @@ function normalizeSummary(raw: unknown, fallbackSummarizationId: string): Pocket
 		bulletPoints: coerceStringArray(getArray(summaryRoot, "bullet_points")).length > 0
 			? coerceStringArray(getArray(summaryRoot, "bullet_points"))
 			: coerceStringArray(getArray(summaryRoot, "bulletPoints")),
-		actionItems: normalizeActionItems(actionItemsRoot),
+		actionItems: normalizeActionItems(actionItemsRoot).map(item => item.title),
 		mindMap,
 		autoInitiated: getBoolean(value, "autoInitiated"),
 		createdAt: getNullableString(value, "createdAt"),
@@ -194,7 +194,7 @@ function normalizeTranscriptSegment(raw: unknown): PocketTranscriptSegment | nul
 	}
 
 	return {
-		start,
+		startTime: start,
 		end,
 		speaker: getNullableString(value, "speaker"),
 		text,
