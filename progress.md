@@ -73,3 +73,32 @@
 - Tests: 22 passed (no regressions; no new unit tests — wiring only)
 - eval/new Function grep: PASS
 - Commit: 2ff126a feat: main plugin lifecycle, sync command, notification gating
+
+## Phase 6 — Release
+
+**Status:** DONE
+
+### Review (Part A)
+
+All 10 acceptance criteria verified:
+1. No auto-sync, tracking map, archive, tag filter, insights ✓
+2. Empty apiKey → Notice, abort ✓
+3. Network failure → caught, Notice, no crash ✓
+4. Vault write failure → caught per recording, logged, continues ✓
+5. onunload empty ✓
+6. Defaults correct ✓
+7. Filename sanitizer complete ✓
+8. Summary source field; transcript no source ✓
+9. Notification gating works ✓
+10. npm test all green (22 passed) ✓
+
+### Release (Part B)
+
+- manifest.json: id=pocket-sync-lite, version=0.1.0, isDesktopOnly=false ✓
+- versions.json: {"0.1.0": "1.4.0"} ✓
+- README.md: written with Setup, Settings, Schema, License ✓
+- Build: clean, 17 KB, 40 lines ✓
+- Security audit: PASS (no eval/new Function) ✓
+- Final test: 22 passed ✓
+- Commit: ec3341d chore(release): 0.1.0
+- Tag: v0.1.0
