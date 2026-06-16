@@ -68,6 +68,10 @@ Skipped count only appears when files were skipped. Disable the notice in settin
 
 This plugin makes requests to the Pocket API (`https://public.heypocketai.com/api/v1`) to fetch your recordings. No vault content is sent. The only data transmitted is your API key (in the `Authorization` header) and date range parameters. No telemetry or analytics are collected.
 
+## Inspiration
+
+This plugin was inspired by [obsidian-pocket](https://github.com/Maclean-D/obsidian-pocket) by Maclean-D — a full-featured Pocket sync plugin with per-artifact folders, templates, and more.
+
 ## License
 
 0BSD
