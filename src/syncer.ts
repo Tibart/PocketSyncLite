@@ -46,8 +46,8 @@ export async function sync(
   let listItems;
   try {
     listItems = await api.listAllRecordings({
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
+      startDate: startDate.toISOString().slice(0, 10),
+      endDate: endDate.toISOString().slice(0, 10),
     });
   } catch (e: any) {
     result.errors.push(`Failed to fetch recording list: ${e?.message ?? e}`);

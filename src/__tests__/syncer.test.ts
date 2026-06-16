@@ -145,7 +145,7 @@ describe('syncer', () => {
     const expectedStart = new Date(now);
     expectedStart.setDate(expectedStart.getDate() - 30);
     const [callArgs] = mockListAllRecordings.mock.calls;
-    expect(new Date(callArgs[0].startDate).getTime()).toBe(expectedStart.getTime());
+    expect(callArgs[0].startDate).toBe(expectedStart.toISOString().slice(0, 10));
   });
 
   it('uses lastSyncAt minus 2 days on incremental sync', async () => {
@@ -156,7 +156,7 @@ describe('syncer', () => {
     const expectedStart = new Date(lastSyncAt);
     expectedStart.setDate(expectedStart.getDate() - 2);
     const [callArgs] = mockListAllRecordings.mock.calls;
-    expect(new Date(callArgs[0].startDate).getTime()).toBe(expectedStart.getTime());
+    expect(callArgs[0].startDate).toBe(expectedStart.toISOString().slice(0, 10));
   });
 
   it('isolates errors: one failing recording does not stop others', async () => {
