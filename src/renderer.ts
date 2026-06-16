@@ -59,12 +59,13 @@ export function renderNote(
     }
   }
 
-  // Frontmatter: id, date, duration (when present), tags (when present), source (summary only)
+  // Frontmatter: id/date/duration only on transcripts; tags and source on all
   const tagYaml = allTags.length > 0
     ? `tags:\n${allTags.map(t => `  - ${t}`).join('\n')}\n`
     : '';
-  const durationYaml = recording.durationSeconds != null ? `duration: ${recording.durationSeconds}\n` : '';
-  const frontmatter = `---\nid: ${recording.id}\ndate: ${formatDate(recording.recordingAt)}\n${durationYaml}${tagYaml}${sourceField}---\n`;
+  const durationYaml = type === 'transcript' && recording.durationSeconds != null ? `duration: ${recording.durationSeconds}\n` : '';
+  const idDateYaml = type === 'transcript' ? `id: ${recording.id}\ndate: ${formatDate(recording.recordingAt)}\n` : '';
+  const frontmatter = `---\n${idDateYaml}${durationYaml}${tagYaml}${sourceField}---\n`;
 
   const title = `\n# ${recording.title || 'Untitled'}\n`;
 
