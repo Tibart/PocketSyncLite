@@ -44,7 +44,8 @@ export default class PocketSyncLitePlugin extends Plugin {
         new Notice(`Pocket Sync Lite: Synced with ${result.errors.length} error(s). Check console.`);
         result.errors.forEach(e => console.error('[PocketSyncLite]', e));
       } else if (this.settings.showSyncNotification) {
-        new Notice(`Pocket Sync Lite: Synced ${result.summaries + result.transcripts} files (${result.summaries} summaries, ${result.transcripts} transcripts).`);
+        const skippedNote = result.skipped > 0 ? `, ${result.skipped} skipped` : '';
+        new Notice(`Pocket Sync Lite: Synced ${result.summaries + result.transcripts} files (${result.summaries} summaries, ${result.transcripts} transcripts${skippedNote}).`);
       }
     } catch (e: any) {
       new Notice(`Pocket Sync Lite: Sync failed \u2014 ${e?.message ?? e}`);

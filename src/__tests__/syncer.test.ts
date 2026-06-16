@@ -45,6 +45,7 @@ const BASE_SETTINGS: PocketSettings = {
   showSyncNotification: true,
   frontmatterTags: '',
   addTypeTag: true,
+  alwaysOverwrite: false,
 };
 
 const MOCK_LIST_ITEM = {
@@ -182,6 +183,28 @@ describe('syncer', () => {
     expect(result.errors).toHaveLength(1);
     expect(result.errors[0]).toMatch('rec-1');
     expect(result.summaries).toBe(1);
+  });
+
+  it('skips existing files when alwaysOverwrite is false', async () => {
+    mockRenderNote.mockReturnValue('some content');
+    mockResolveFilename.mockReturnValue('2025-06-10 Test Recording - summary');
+    const path = 'Pocket/Summaries/2025-06-10 Test Recording - summary.md';
+    (app.vault as any)._seed(path, 'existing content');
+
+    const result = await sync(app, { ...BASE_SETTINGS, alwaysOverwrite: false }, null);
+    expect(result.skipped).toBeGreaterThan(0);
+    expect((app.vault as any)._read(path)).toBe('existing content');
+  });
+
+  it('overwrites existing files when alwaysOverwrite is true', async () => {
+    mockRenderNote.mockReturnValue('new content');
+    mockResolveFilename.mockReturnValue('2025-06-10 Test Recording - summary');
+    const path = 'Pocket/Summaries/2025-06-10 Test Recording - summary.md';
+    (app.vault as any)._seed(path, 'old content');
+
+    const result = await sync(app, { ...BASE_SETTINGS, alwaysOverwrite: true }, null);
+    expect(result.summaries).toBeGreaterThan(0);
+    expect((app.vault as any)._read(path)).not.toBe('old content');
   });
 
   it('resolveFolder falls back to folder + /Summaries when summaryFolder is empty', () => {

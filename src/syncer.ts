@@ -7,6 +7,7 @@ import { renderNote, resolveFilename } from './renderer';
 export interface SyncResult {
   summaries: number;
   transcripts: number;
+  skipped: number;
   errors: string[];
 }
 
@@ -38,7 +39,7 @@ export async function sync(
   settings: PocketSettings,
   lastSyncAt: string | null,
 ): Promise<SyncResult> {
-  const result: SyncResult = { summaries: 0, transcripts: 0, errors: [] };
+  const result: SyncResult = { summaries: 0, transcripts: 0, skipped: 0, errors: [] };
   const api = new PocketApi({ apiKey: settings.apiKey });
   const startDate = buildStartDate(lastSyncAt);
   const endDate = new Date();
@@ -78,8 +79,12 @@ export async function sync(
         await ensureFolder(app, folder);
         const filename = resolveFilename(recording, settings.filenameTemplate, 'summary') + '.md';
         const path = normalizePath(`${folder}/${filename}`);
-        await app.vault.adapter.write(path, summaryContent);
-        result.summaries++;
+        if (!settings.alwaysOverwrite && await app.vault.adapter.exists(path)) {
+          result.skipped++;
+        } else {
+          await app.vault.adapter.write(path, summaryContent);
+          result.summaries++;
+        }
       }
 
       const transcriptContent = renderNote(recording, 'transcript', settings);
@@ -88,8 +93,12 @@ export async function sync(
         await ensureFolder(app, folder);
         const filename = resolveFilename(recording, settings.filenameTemplate, 'transcript') + '.md';
         const path = normalizePath(`${folder}/${filename}`);
-        await app.vault.adapter.write(path, transcriptContent);
-        result.transcripts++;
+        if (!settings.alwaysOverwrite && await app.vault.adapter.exists(path)) {
+          result.skipped++;
+        } else {
+          await app.vault.adapter.write(path, transcriptContent);
+          result.transcripts++;
+        }
       }
     } catch (e: any) {
       result.errors.push(`Recording ${listItem.id}: ${e?.message ?? e}`);

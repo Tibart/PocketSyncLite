@@ -61,6 +61,13 @@ export class PocketSyncLiteSettingsTab extends PluginSettingTab {
         .onChange(async (v) => { this.plugin.settings.transcriptFolder = v.trim(); await this.plugin.saveSettings(); }));
 
     new Setting(containerEl)
+      .setName('Always overwrite existing files')
+      .setDesc('When off, files already in the vault are skipped. When on, they are always overwritten.')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.alwaysOverwrite)
+        .onChange(async (v) => { this.plugin.settings.alwaysOverwrite = v; await this.plugin.saveSettings(); }));
+
+    new Setting(containerEl)
       .setName('Show sync notification')
       .setDesc('Show a notice after sync completes with counts.')
       .addToggle(toggle => toggle

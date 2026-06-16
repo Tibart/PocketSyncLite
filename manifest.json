@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "minAppVersion": "1.4.0",
   "description": "Sync Pocket recordings (summaries and transcripts) to your vault.",
-  "author": "PocketSyncLite",
+  "author": "Tibart Visser",
   "authorUrl": "",
   "isDesktopOnly": false
 }

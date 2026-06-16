@@ -14,6 +14,7 @@ export interface PocketSettings {
   showSyncNotification: boolean;
   frontmatterTags: string;
   addTypeTag: boolean;
+  alwaysOverwrite: boolean;
 }
 
 export const DEFAULT_SETTINGS: PocketSettings = {
@@ -25,6 +26,7 @@ export const DEFAULT_SETTINGS: PocketSettings = {
   showSyncNotification: true,
   frontmatterTags: '',
   addTypeTag: true,
+  alwaysOverwrite: false,
 };
 
 export interface PocketTag {
