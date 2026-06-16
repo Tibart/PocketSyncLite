@@ -68,6 +68,13 @@ export class PocketSyncLiteSettingsTab extends PluginSettingTab {
         .onChange(async (v) => { this.plugin.settings.showSyncNotification = v; await this.plugin.saveSettings(); }));
 
     new Setting(containerEl)
+      .setName('Add type tag to frontmatter')
+      .setDesc('Add #summary or #transcript as a tag in every note.')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.addTypeTag)
+        .onChange(async (v) => { this.plugin.settings.addTypeTag = v; await this.plugin.saveSettings(); }));
+
+    new Setting(containerEl)
       .setName('Frontmatter tags')
       .setDesc('Comma-separated tags added to every note, e.g. pocket,meeting. Leading # is stripped.')
       .addText(text => text

@@ -44,6 +44,7 @@ const BASE_SETTINGS: PocketSettings = {
   transcriptFolder: 'Pocket/Transcripts',
   showSyncNotification: true,
   frontmatterTags: '',
+  addTypeTag: true,
 };
 
 const MOCK_LIST_ITEM = {

@@ -31,7 +31,7 @@ function formatTime(seconds: number): string {
 export function renderNote(
   recording: NormalizedPocketRecording,
   type: 'summary' | 'transcript',
-  settings: Pick<PocketSettings, 'frontmatterTags' | 'filenameTemplate'>,
+  settings: Pick<PocketSettings, 'frontmatterTags' | 'filenameTemplate' | 'addTypeTag'>,
 ): string {
   if (type === 'summary') {
     if (!recording.summary?.markdown || recording.summary.processingStatus !== 'completed') return '';
@@ -39,12 +39,15 @@ export function renderNote(
     if (!recording.transcript?.segments?.length && !recording.transcript?.text) return '';
   }
 
+  // Tags: recording tags + extra settings tags + type tag (optional)
   const recordingTagNames = recording.tags.map(t => t.name);
   const extraTags = settings.frontmatterTags
     ? settings.frontmatterTags.split(',').map(t => t.trim().replace(/^#/, '')).filter(Boolean)
     : [];
-  const allTags = [...recordingTagNames, ...extraTags];
+  const typeTag = settings.addTypeTag ? [type] : [];
+  const allTags = [...recordingTagNames, ...extraTags, ...typeTag];
 
+  // source wikilink for summary only
   let sourceField = '';
   if (type === 'summary') {
     const hasTranscript = !!(recording.transcript?.segments?.length || recording.transcript?.text);
@@ -56,12 +59,12 @@ export function renderNote(
     }
   }
 
+  // Frontmatter: id, date, duration (when present), tags (when present), source (summary only)
   const tagYaml = allTags.length > 0
     ? `tags:\n${allTags.map(t => `  - ${t}`).join('\n')}\n`
     : '';
   const durationYaml = recording.durationSeconds != null ? `duration: ${recording.durationSeconds}\n` : '';
-  const languageYaml = recording.language ? `language: ${recording.language}\n` : '';
-  const frontmatter = `---\nid: ${recording.id}\ndate: ${formatDate(recording.recordingAt)}\n${durationYaml}${languageYaml}${tagYaml}pocket_type: ${type}\n${sourceField}---\n`;
+  const frontmatter = `---\nid: ${recording.id}\ndate: ${formatDate(recording.recordingAt)}\n${durationYaml}${tagYaml}${sourceField}---\n`;
 
   const title = `\n# ${recording.title || 'Untitled'}\n`;
 

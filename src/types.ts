@@ -13,6 +13,7 @@ export interface PocketSettings {
   transcriptFolder: string;
   showSyncNotification: boolean;
   frontmatterTags: string;
+  addTypeTag: boolean;
 }
 
 export const DEFAULT_SETTINGS: PocketSettings = {
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: PocketSettings = {
   transcriptFolder: DEFAULT_TRANSCRIPT_FOLDER,
   showSyncNotification: true,
   frontmatterTags: '',
+  addTypeTag: true,
 };
 
 export interface PocketTag {

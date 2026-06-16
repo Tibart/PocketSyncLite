@@ -29,7 +29,7 @@ const s = { ...DEFAULT_SETTINGS };
 describe('summary', () => {
   it('renders frontmatter, title, sections', () => {
     const out = renderNote(base, 'summary', s);
-    expect(out).toContain('pocket_type: summary');
+    expect(out).toContain('- summary');
     expect(out).toContain('# Team Standup');
     expect(out).toContain('## Summary');
     expect(out).toContain('### Action items');
@@ -76,9 +76,19 @@ describe('frontmatter tags', () => {
     expect(out).toContain('- pocket');
     expect(out).toContain('- meeting');
   });
-  it('empty frontmatterTags adds nothing', () => {
-    const out = renderNote({ ...base, tags: [] }, 'transcript', { ...s, frontmatterTags: '' });
+  it('empty frontmatterTags adds nothing (addTypeTag off)', () => {
+    const out = renderNote({ ...base, tags: [] }, 'transcript', { ...s, frontmatterTags: '', addTypeTag: false });
     expect(out).not.toContain('tags:');
+  });
+
+  it('addTypeTag true adds type as last tag', () => {
+    const out = renderNote({ ...base, tags: [] }, 'transcript', { ...s, frontmatterTags: '', addTypeTag: true });
+    expect(out).toContain('- transcript');
+  });
+
+  it('addTypeTag false omits type tag', () => {
+    const out = renderNote({ ...base, tags: [] }, 'summary', { ...s, frontmatterTags: '', addTypeTag: false });
+    expect(out).not.toContain('- summary');
   });
   it('strips leading # from settings tags', () => {
     const out = renderNote(base, 'transcript', { ...s, frontmatterTags: '#pocket,#note' });
