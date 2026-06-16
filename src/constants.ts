@@ -1,4 +1,4 @@
-export const POCKET_API_BASE_URL = 'https://api.heypocket.com';
+export const POCKET_API_BASE_URL = 'https://public.heypocketai.com/api/v1';
 export const DEFAULT_FOLDER = 'Pocket';
 export const DEFAULT_SUMMARY_FOLDER = 'Pocket/Summaries';
 export const DEFAULT_TRANSCRIPT_FOLDER = 'Pocket/Transcripts';
@@ -12,3 +12,5 @@ export const DEFAULT_REQUEST_TIMEOUT_MS = REQUEST_TIMEOUT_MS;
 export const DEFAULT_RETRY_COUNT = MAX_RETRIES;
 export const DEFAULT_RETRY_DELAY_MS = RETRY_DELAY_MS;
 export const MAX_PAGE_SIZE = 100;
+
+export const POCKET_API_KEYS_URL = 'https://app.heypocket.com/app/settings/api-keys';
