@@ -1,10 +1,10 @@
 {
   "id": "pocket-sync-lite",
   "name": "Pocket Sync Lite",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "minAppVersion": "1.4.0",
   "description": "Sync Pocket recordings (summaries and transcripts) to your vault.",
-  "author": "Tibart Visser",
-  "authorUrl": "",
+  "author": "Tibart",
+  "authorUrl": "https://github.com/Tibart/PocketSyncLite",
   "isDesktopOnly": false
 }
