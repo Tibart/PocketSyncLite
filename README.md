@@ -64,6 +64,10 @@ Pocket Sync Lite: Synced 3 files (2 summaries, 1 transcripts, 4 skipped).
 
 Skipped count only appears when files were skipped. Disable the notice in settings — errors are always shown regardless.
 
+## Network requests
+
+This plugin makes requests to the Pocket API (`https://public.heypocketai.com/api/v1`) to fetch your recordings. No vault content is sent. The only data transmitted is your API key (in the `Authorization` header) and date range parameters. No telemetry or analytics are collected.
+
 ## License
 
 0BSD
